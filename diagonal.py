@@ -1,3 +1,5 @@
+import numpy as np
+
 class Diagonal:
     def __init__(self,n,d,precision='single',sparse=True):
         self.n = n
@@ -107,15 +109,15 @@ class Diagonal:
     def plu(self):
         L = np.eye(self.area)
         U = np.zeros((self.area,self.area))
-        P = self.create_pivot(self.from_dense(self.matrix))
         PA = self.get_permutation_dense()
 
         for j in range(self.area):
 
             basis = self.basis[j%self.d]
-            updatedable = [b for b in basis if b<=j]
+            
 
             for ii,i in enumerate(basis):
+                updatedable = [b for b in basis if b<=j]
                 if i <= j:
                     if len(updatedable) == 1:
                         value = PA[ii,j]
@@ -123,8 +125,8 @@ class Diagonal:
                         value= PA[ii,j] - (U[updatedable[:ii+(1-j%2)],j] *L[basis[ii],updatedable[:ii+(1-j%2)]]).sum()
                     U[i,j] = value
 
-            updatedable = [b for b in basis if b>j]
-            for ii,i in enumerate(basis):
+                updatedable = [b for b in basis if b>j]
+            #for ii,i in enumerate(basis):
                 if i > j:
                     if len(updatedable)>self.d:
                         value = PA[ii,j] / U[j,j]
@@ -133,4 +135,4 @@ class Diagonal:
                     L[i,j] = value
 
 
-        return(P,PA,L,U)
+        return(PA,L,U)
