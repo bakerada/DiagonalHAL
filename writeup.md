@@ -15,11 +15,16 @@ There are two important characteristics of matrix **A**, which enable compact an
   
 </p>
 <p align="center" font> 
-  An example of matrix **A** where **D**<sub>ij</sub> is a diagonal matrix of size <a href="https://www.codecogs.com/eqnedit.php?latex=d&space;x&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?d&space;x&space;d" title="d x d" /></a>
+  An example of matrix <strong>A</strong>, <strong>D</strong><sub>ij</sub> is a diagonal matrix of size <a href="https://www.codecogs.com/eqnedit.php?latex=d&space;x&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?d&space;x&space;d" title="d x d" /></a>
 </p>  
 <br><br>
 
-Given the *n* and *d* properties of matrix **A**, we can now derive new properties of the matrix.  A diagonal matrix is a matrix where there only populated cells occur where the row index equals the column index, **D**<sub>jj</sub>.  With only the diagonal elements of the matrix populated, diagonal matricies become increasingly sparse as the dimension of the matrix increases.  
+Given the *n* and *d* properties of matrix **A**, we can now derive new properties of the matrix.  A diagonal matrix is a matrix where the only populated cells occur where the row index equals the column index, **D**<sub>jj</sub>.  With only the diagonal elements of the matrix populated, diagonal matricies become increasingly sparse as the dimension of the matrix increases. For matrix **A**, *d* controls the rate at which the sparsity increases.  Because **A** is made up of non overlapping diagonal matricies, the populated cells of the matrix are known simply by knowing *n* and *d*.
+
+
+<br><br>
+### Dense Representation
+The memory requirements of **A** can be significantly reduced by eliminating the non-diagonal elements of each of the <a href="https://www.codecogs.com/eqnedit.php?latex=n^2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2" title="n^2" /></a> diagonal matricies.  For any values of *n* and *d*, matrix **A** contains <a href="https://www.codecogs.com/eqnedit.php?latex=n^2\ast&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2\ast&space;d" title="n^2\ast d" /></a> diagonal elements.  The dense represention reduces memory requirements by a factor of *d*.  
 
 
   
