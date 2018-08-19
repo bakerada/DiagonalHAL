@@ -48,8 +48,19 @@ The deconstruction of **A** into a dense represenation is trival, but to perform
 
 The basis vectors enables the implementation to perform the necessary matrix operations, while requiring a minimum amount of memory.  The basis include the popualted cells for each column, however it can be further reduced by only storing the populated rows for each *d* block, rather than all rows.  If memory is an issue, it is a trivial update, however the basis vectors are frequently leveraged throughout the implementation and make for straight forward indexing.  
 
+<br>
 
+### Matrix Multiplication
 
+A core matrix operation is matrix multiplication, where a single matrix is formed by the compsition of two discrete matricies.  If **B** is a *m*x*m* matrix and **C** is a *m*x*n* matrix, matrix multiplication is the summation of the products of *m* row values in **B** by the *m* column values of **C** for each row-column pairing.  The result of matrix multiplication a *m*x*n* matrix by a *m*x*n* matrix is a matrix of size *m*x*n*.
+
+<p align='center'>
+  <a href="https://www.codecogs.com/eqnedit.php?latex=B=\begin{bmatrix}&space;1&space;&3&space;\\&space;2&space;&4&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?B=\begin{bmatrix}&space;1&space;&3&space;\\&space;2&space;&4&space;\end{bmatrix}" title="B=\begin{bmatrix} 1 &3 \\ 2 &4 \end{bmatrix}" /></a>&nbsp&nbsp
+  <a href="https://www.codecogs.com/eqnedit.php?latex=C=\begin{bmatrix}&space;3&space;&5&space;\\&space;1&space;&2&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?C=\begin{bmatrix}&space;3&space;&5&space;\\&space;1&space;&2&space;\end{bmatrix}" title="C=\begin{bmatrix} 3 &5 \\ 1 &2 \end{bmatrix}" /></a>
+</p>
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=BC=\begin{bmatrix}&space;1*3&space;&plus;&space;3*1&space;&1*5&plus;3*2&space;\\&space;2*3&space;&plus;4*1&space;&2&space;*5&plus;4*2&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?BC=\begin{bmatrix}&space;1*3&space;&plus;&space;3*1&space;&1*5&plus;3*2&space;\\&space;2*3&space;&plus;4*1&space;&2&space;*5&plus;4*2&space;\end{bmatrix}" title="BC=\begin{bmatrix} 1*3 + 3*1 &1*5+3*2 \\ 2*3 +4*1 &2 *5+4*2 \end{bmatrix}" /></a>
+</p>
 
 
   
