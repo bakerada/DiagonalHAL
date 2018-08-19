@@ -14,7 +14,7 @@ There are two important characteristics of matrix **A**, which enable compact an
   <a href="https://www.codecogs.com/eqnedit.php?  latex=\begin{bmatrix}&space;D_{11}&space;&&space;D_{12}&space;&&space;...&space;&&space;D_{1n}\\&space;D_{21}&&space;D_{22}&space;&&space;...&space;&&space;D_{2n}\\&space;D_{31}&&space;D_{32}&space;&&space;...&space;&&space;D_{3n}&space;\\&space;D_{41}&&space;D_{42}&space;&&space;...&space;&&space;D_{4n}&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;D_{11}&space;&&space;D_{12}&space;&&space;...&space;&&space;D_{1n}\\&space;D_{21}&&space;D_{22}&space;&&space;...&space;&&space;D_{2n}\\&space;D_{31}&&space;D_{32}&space;&&space;...&space;&&space;D_{3n}&space;\\&space;D_{41}&&space;D_{42}&space;&&space;...&space;&&space;D_{4n}&space;\end{bmatrix}" title="\begin{bmatrix} D_{11} & D_{12} & ... & D_{1n}\\ D_{21}& D_{22} & ... & D_{2n}\\ D_{31}& D_{32} & ... & D_{3n} \\ D_{41}& D_{42} & ... & D_{4n} \end{bmatrix}" /></a>
   
 </p>
-<p align="center" font> 
+<p align="center"> 
   An example of matrix <strong>A</strong>, <strong>D</strong><sub>ij</sub> is a diagonal matrix of size <a href="https://www.codecogs.com/eqnedit.php?latex=d&space;x&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?d&space;x&space;d" title="d x d" /></a>
 </p>  
 <br><br>
@@ -24,7 +24,28 @@ Given the *n* and *d* properties of matrix **A**, we can now derive new properti
 
 <br><br>
 ### Dense Representation
-The memory requirements of **A** can be significantly reduced by eliminating the non-diagonal elements of each of the <a href="https://www.codecogs.com/eqnedit.php?latex=n^2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2" title="n^2" /></a> diagonal matricies.  For any values of *n* and *d*, matrix **A** contains <a href="https://www.codecogs.com/eqnedit.php?latex=n^2\ast&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2\ast&space;d" title="n^2\ast d" /></a> diagonal elements.  The dense represention reduces memory requirements by a factor of *d*.  
+The memory requirements of **A** can be significantly reduced by eliminating the non-diagonal elements of each of the <a href="https://www.codecogs.com/eqnedit.php?latex=n^2" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2" title="n^2" /></a> diagonal matricies.  For any values of *n* and *d*, matrix **A** contains <a href="https://www.codecogs.com/eqnedit.php?latex=n^2\ast&space;d" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2\ast&space;d" title="n^2\ast d" /></a> diagonal elements.  The dense represention reduces memory requirements by a factor of *d*.
+
+<br><br>
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;1&space;&&space;0&space;&&space;1&space;&&space;0&space;\\&space;0&space;&&space;1&space;&&space;0&space;&1&space;\\&space;1&space;&&space;0&space;&&space;1&space;&&space;0\\&space;0&space;&&space;1&space;&&space;0&space;&1&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;1&space;&&space;0&space;&&space;1&space;&&space;0&space;\\&space;0&space;&&space;1&space;&&space;0&space;&1&space;\\&space;1&space;&&space;0&space;&&space;1&space;&&space;0\\&space;0&space;&&space;1&space;&&space;0&space;&1&space;\end{bmatrix}" title="\begin{bmatrix} 1 & 0 & 1 & 0 \\ 0 & 1 & 0 &1 \\ 1 & 0 & 1 & 0\\ 0 & 1 & 0 &1 \end{bmatrix}" /></a>&nbsp&nbsp&nbsp&nbsp&nbsp <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;1&space;&1&space;\\&space;1&space;&1&space;\\&space;1&space;&1&space;\\&space;1&space;&1&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;1&space;&1&space;\\&space;1&space;&1&space;\\&space;1&space;&1&space;\\&space;1&space;&1&space;\end{bmatrix}" title="\begin{bmatrix} 1 &1 \\ 1 &1 \\ 1 &1 \\ 1 &1 \end{bmatrix}" /></a>
+</p>
+
+<p align="center">
+  Figure 1: The left matrix is a valid example of <strong>A</strong>, with n=2 and d=2.  The right matrix is an example of **A** deconstructed into a dense representation.
+</p>
+
+<br>
+
+The deconstruction of **A** into a dense represenation is trival, but to perform operations, such as matrix multiplication with another matrix, additional information is necessary.  Each dense representation of **A** is accompanied by another vector(s), which will be referred to as the basis vector(s) throughout this write up.  The basis vectors contain the indicies of the non-diagonal elements of **A** before is deconstructed into the sparse representation.  The basis vectors do not contain every unique index of the non-diagonal elements of **A**.  Rather, there are *d* basis vectors of size *n*, where each vector represents a column and each element of the vector represents the non diagonal elements in the rows of **A**.  The basis vectors are representative of each non-overlapping batch of *d* columns in **A**.
+<br>
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;\begin{bmatrix}&space;0&2\\&space;\end{bmatrix}\\&space;\begin{bmatrix}&space;1&3\\&space;\end{bmatrix}&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;\begin{bmatrix}&space;0&2\\&space;\end{bmatrix}\\&space;\begin{bmatrix}&space;1&3\\&space;\end{bmatrix}&space;\end{bmatrix}" title="\begin{bmatrix} \begin{bmatrix} 0&2\\ \end{bmatrix}\\ \begin{bmatrix} 1&3\\ \end{bmatrix} \end{bmatrix}" /></a>
+</p>
+<p align="center">
+  Figure 2. An example set of basis vectors from the matrix provided in figure 1.  For row 
+
+
 
 
   
