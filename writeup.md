@@ -61,7 +61,9 @@ A core matrix operation is matrix multiplication, where a single matrix is forme
 <p align="center">
   <a href="https://www.codecogs.com/eqnedit.php?latex=BC=\begin{bmatrix}&space;1*3&space;&plus;&space;3*1&space;&1*5&plus;3*2&space;\\&space;2*3&space;&plus;4*1&space;&2&space;*5&plus;4*2&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?BC=\begin{bmatrix}&space;1*3&space;&plus;&space;3*1&space;&1*5&plus;3*2&space;\\&space;2*3&space;&plus;4*1&space;&2&space;*5&plus;4*2&space;\end{bmatrix}" title="BC=\begin{bmatrix} 1*3 + 3*1 &1*5+3*2 \\ 2*3 +4*1 &2 *5+4*2 \end{bmatrix}" /></a>
 </p>
-
+<p align="center">
+  Figure 3. A sample matrix multiplication between two matricies **B** and **C**
+</p>
 
   
 
