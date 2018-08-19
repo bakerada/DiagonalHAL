@@ -65,5 +65,7 @@ A core matrix operation is matrix multiplication, where a single matrix is forme
   Figure 3. A sample matrix multiplication between two matricies **B** and **C**
 </p>
 
+If a value is zero within the matrix, it does not contribute to the composition of the two matricies during matrix multiplication.  Therefore, to perform matrix multiplication between **A** and another matrix,**X**, only the cells within **X** which correspond to a non-diagonal element within **A** are necessary for calculating matrix multiplication.  To implement matrix multiplication, the rows of **X** are indexed utilizing the basis vectors to create a compact representation of the columns of **X**.  If **X** is a *m*x*k* matrix, the compact representation of **X** is a matrix of size *d*x*k*x*n*.  
+
   
 
