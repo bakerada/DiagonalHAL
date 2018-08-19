@@ -43,7 +43,11 @@ The deconstruction of **A** into a dense represenation is trival, but to perform
   <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{bmatrix}&space;\begin{bmatrix}&space;0&2\\&space;\end{bmatrix}\\&space;\begin{bmatrix}&space;1&3\\&space;\end{bmatrix}&space;\end{bmatrix}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;\begin{bmatrix}&space;0&2\\&space;\end{bmatrix}\\&space;\begin{bmatrix}&space;1&3\\&space;\end{bmatrix}&space;\end{bmatrix}" title="\begin{bmatrix} \begin{bmatrix} 0&2\\ \end{bmatrix}\\ \begin{bmatrix} 1&3\\ \end{bmatrix} \end{bmatrix}" /></a>
 </p>
 <p align="center">
-  Figure 2. An example set of basis vectors from the matrix provided in figure 1.  For row 
+  Figure 2. An example set of basis vectors from the matrix provided in figure 1.  For column 0, rows 0 and 2 are populated, while for column 1, rows 1 and 3 are populated.
+</p>
+
+The basis vectors enables the implementation to perform the necessary matrix operations, while requiring a minimum amount of memory.  The basis include the popualted cells for each column, however it can be further reduced by only storing the populated rows for each *d* block, rather than all rows.  If memory is an issue, it is a trivial update, however the basis vectors are frequently leveraged throughout the implementation and make for straight forward indexing.  
+
 
 
 
