@@ -87,15 +87,22 @@ The other availible operations in the implementation include finding the inverse
 
 <br>
 
-LU decomposition is chosen as the engine for majority of the matrix operations primarily due to its applicability and number of operations can be derived from **L** and **U**, but it also maitains the same sparsity patterns as **A**.  Therefore, non diagonal elements in **A** will be zero in both **U** and **L** matricies.  Because sparsity is maintained, the basis vectors utilized in the matrix multiplication operations can also be leveraged to perform LU decomposition on the dense representation of **A**.  The Doolittle algorithm with pivoting is the method for implementing LU decomposition for the dense representation of **A**.  To solve for **LU** with Doolittle, an iterative process through each column in **A** solving for first the **U** values in the current column, then solving for the values in the column of **L**
+LU decomposition is chosen as the engine for majority of the matrix operations primarily due to its applicability and number of operations can be derived from **L** and **U**, but it also maitains the same sparsity patterns as **A**.  Therefore, non diagonal elements in **A** will be zero in both **U** and **L** matricies.  Because sparsity is maintained, the basis vectors utilized in the matrix multiplication operations can also be leveraged to perform LU decomposition on the dense representation of **A**.  The Doolittle algorithm with pivoting is the method for implementing LU decomposition for the dense representation of **A**.  To solve for **LU** with Doolittle, an iterative process through each column in **A** solving for first the **U** values in the current column, then solving for the values in the column of **L**.  The calculation for each value of **U** and **L** can be seen in figure 5.
 
 <p align="center">
   <a href="https://www.codecogs.com/eqnedit.php?latex=u_{ij}=&space;a_{ij}&space;-&space;\sum^{i-1}&space;_{k=1}&space;u_{kj}l_{ik}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?u_{ij}=&space;a_{ij}&space;-&space;\sum^{i-1}&space;_{k=1}&space;u_{kj}l_{ik}" title="u_{ij}= a_{ij} - \sum^{i-1} _{k=1} u_{kj}l_{ik}" /></a>
 </p>
 
 <p align="center">
-  <a href="https://www.codecogs.com/eqnedit.php?latex=l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" title="l_{ij}= (a_{ij} - \sum^{j-1} _{k=1} u_{kj}l_{ik})/(u_{jj})" /></a><br> Figure 6: j is the current column,i is the current value in j, while k represents the values up to i
+  <a href="https://www.codecogs.com/eqnedit.php?latex=l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" title="l_{ij}= (a_{ij} - \sum^{j-1} _{k=1} u_{kj}l_{ik})/(u_{jj})" /></a><br> Figure 5: j is the current column,i is the current value in j, while k represents the values up to i
 </p>
+
+The formulats in figure 6, nested within a loop through all columns in **A**, total up to numerous iterations and calculations.  Since sparsity of **A** is represented in both **U** and **L**, the implementation utilizes the basis vectors to only perform **U** and **L** calculations on the necessary matricies.  The implementation pivots the dense representation directly, then performs the **U** and **L** calculations on the dense represenation of **A**.  By performing LU decomposition on the dense representation we can eliminate many of the iterations of the standard Doolittle algorithm.  For each column in **A**, only an single for-loop of *n* values is necessary to calculate the dense **LU** matricies, reducing the iterations by a factor over *d*.  The implementation also saves on memory, as the created **L** and **U** matricies follow the same dense representation as **A**.
+
+<br>
+### Solving Linear Equations
+A key
+
 
 ### References
 
