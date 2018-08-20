@@ -140,7 +140,7 @@ The implementation provides memory and computation reducing mechanisms for sever
 
 There are several limiting factors of the current implementation.  The operations are limited by the amount of memory on the current device.  With the dense operations, large values of *n* and *d* can find into memory, but updating the implemenation to utilize disk mapping can enable even larger values.  Another limitation is speed on the LU decomposition operation.  Even with the reduction of operations, there are many iterations to solve for **LU**.  Python is not the ideal language for implementations with many iterative steps, which is why numpy often leverages other languages to perform the operations.  The same dense LU decomposition algorithm can be converted and optimized in compiled language to not only see signifcant reductions in computations and memory, but also runtime.  Finally, many of the algorithms provided in the implementation can be parallelized to see speed improvements, especially in disk mapping is utilized to operation of **A** containing millions of cells.
 
-
+The purpose of the implementation is to reduce computations and memory requirements to perform a variety of matrix operations on **A**.  Removing the nondiagonal elements and updating the algorithms to operation on the dense representation is a forum to accomplish the implementations purpose.  However, there are likely more properties of **A** that can be exploited to simplify and/or expedite the operations with more advance knowledge of linear algebra.  There are also more efficient ways to perform indexing and represent the dense version of **A** that were not explored in the current state of the implementation.
 
   
 
