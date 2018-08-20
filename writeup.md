@@ -75,4 +75,32 @@ If a value is zero within the matrix, it does not contribute to the composition 
 
 The matrix multiplication implementation allows for significantly larger values of *n* and *d*.  For smaller values on *n* and *d*, the sparse implemenation of matrix multiplication has runtimes near that of base numpy.  However, as *n* and *d* increase, the custom implementation becomes significantly faster, as shown in figure 4.  While the increase speed of the matrix multiplication operation is beneficial, the true value of the implemenation is the decrease in memory consumption.  To perform a matrix multiplication between **A** with *n*=1000 and *d*=1000 and **X** of size 1000x1000, 26GB are utilized with the new implementation. With base numpy, more than 32GB are required when *n*=300 and *d*=300.
 
+<br>
+
+### LU Decomposition
+
+The other availible operations in the implementation include finding the inverse and determinant of **A**, as well as solving linear systems of equations with **A**.  To efficiently perform these operations, the implementation leverages LU decomposition.  LU decompostion is the process of breaking down a square matrix into two components, a unit lower triangular matrix **L** and an upper triangular matrix **U**.  The product of **L** and **U** equals the original matrix [1].
+<br>
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=LU=A" target="_blank"><img src="https://latex.codecogs.com/gif.latex?LU=A" title="LU=A" /></a><br>LU Decomposition
+</p>
+
+<br>
+
+LU decomposition is chosen as the engine for majority of the matrix operations primarily due to its applicability and number of operations can be derived from **L** and **U**, but it also maitains the same sparsity patterns as **A**.  Therefore, non diagonal elements in **A** will be zero in both **U** and **L** matricies.  Because sparsity is maintained, the basis vectors utilized in the matrix multiplication operations can also be leveraged to perform LU decomposition on the dense representation of **A**.  The Doolittle algorithm with pivoting is the method for implementing LU decomposition for the dense representation of **A**.  To solve for **LU** with Doolittle, an iterative process through each column in **A** solving for first the **U** values in the current column, then solving for the values in the column of **L**
+
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=u_{ij}=&space;a_{ij}&space;-&space;\sum^{i-1}&space;_{k=1}&space;u_{kj}l_{ik}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?u_{ij}=&space;a_{ij}&space;-&space;\sum^{i-1}&space;_{k=1}&space;u_{kj}l_{ik}" title="u_{ij}= a_{ij} - \sum^{i-1} _{k=1} u_{kj}l_{ik}" /></a>
+</p>
+
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?l_{ij}=&space;(a_{ij}&space;-&space;\sum^{j-1}&space;_{k=1}&space;u_{kj}l_{ik})/(u_{jj})" title="l_{ij}= (a_{ij} - \sum^{j-1} _{k=1} u_{kj}l_{ik})/(u_{jj})" /></a><br> Figure 6: j is the current column,i is the current value in j, while k represents the values up to i
+</p>
+
+### References
+
+[1] Press, W. H.; Flannery, B. P.; Teukolsky, S. A.; and Vetterling, W. T. "LU Decomposition and Its Applications." §2.3 in Numerical Recipes in FORTRAN: The Art of Scientific Computing, 2nd ed. Cambridge, England: Cambridge University Press, pp. 34-42, 1992.
+[2] Timothy Sauer. 2011. Numerical Analysis (2nd ed.). Addison-Wesley Publishing Company, ch 2, USA.
+
+
 
