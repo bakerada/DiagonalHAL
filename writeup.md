@@ -128,6 +128,8 @@ A fundamental operation of matricies includes solving the equation <a href="http
   <a href="https://www.codecogs.com/eqnedit.php?latex=Ly=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ly=b" title="Ly=b" /></a><br><a href="https://www.codecogs.com/eqnedit.php?latex=Ux=y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ux=y" title="Ux=y" /></a>
 </p>
 
+The two step procedure is especially pratical given the triangular properties of **LU**.  To solve for *y*, only a single pass through forward substitution with **L** is necessary.  While solving for the final solution *x* can be done with a single pass through backwards elimination with **U** [1].  To implement the solve for linear equations, the basis vectors index the given *b* during the forward and backwards eliminations steps.  The use of the basis vectors enables calculations of *b* with the dense representations of **LU**, saving memory and total computations.
+
 
 
   
