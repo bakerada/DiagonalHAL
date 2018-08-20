@@ -75,7 +75,7 @@ If a value is zero within the matrix, it does not contribute to the composition 
   <br>Figure 4: A comparison of matrix multiplication using numpy versus the dense representation <br>
 </p>
 
-The matrix multiplication implementation allows for significantly larger values of *n* and *d*.  For smaller values on *n* and *d*, the sparse implementation of matrix multiplication has runtimes near that of base numpy.  However, as *n* and *d* increase, the custom implementation becomes significantly faster, as shown in figure 4.  While the increase speed of the matrix multiplication operation is beneficial, the true value of the implementation is the decrease in memory consumption.  To perform a matrix multiplication between **A** with *n*=1000 and *d*=1000 and **X** of size 1000x1000, 26GB are utilized with the new implementation. With base numpy, more than 32GB are required when *n*=300 and *d*=300.
+The matrix multiplication implementation allows for significantly larger values of *n* and *d*.  For smaller values on *n* and *d*, the sparse implementation of matrix multiplication has runtimes near that of base numpy.  However, as *n* and *d* increase, the custom implementation becomes significantly faster, as shown in figure 4.  While the increase speed of the matrix multiplication operation is beneficial, the true value of the implementation is the decrease in memory consumption.  To perform a matrix multiplication between **A** with *n*=1000 and *d*=1000 and **X** of size 1000000*1000, 26GB are utilized with the new implementation. With base numpy, more than 32GB are required when *n*=300 and *d*=300.
 
 <br>
 
