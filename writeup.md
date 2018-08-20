@@ -100,9 +100,37 @@ LU decomposition is chosen as the engine for majority of the matrix operations p
 The formulats in figure 6, nested within a loop through all columns in **A**, total up to numerous iterations and calculations.  Since sparsity of **A** is represented in both **U** and **L**, the implementation utilizes the basis vectors to only perform **U** and **L** calculations on the necessary matricies.  The implementation pivots the dense representation directly, then performs the **U** and **L** calculations on the dense represenation of **A**.  By performing LU decomposition on the dense representation we can eliminate many of the iterations of the standard Doolittle algorithm.  For each column in **A**, only an single for-loop of *n* values is necessary to calculate the dense **LU** matricies, reducing the iterations by a factor over *d*.  The implementation also saves on memory, as the created **L** and **U** matricies follow the same dense representation as **A**.
 
 <br>
-### Solving Linear Equations
-A key
 
+### Determinant
+Finding the determinant of a matrix is a key operation, especially when determining if the matrix is singular.  If a matrix **B** has a determinant of zero, the matrix is singular and there is not a unique solution to the equation <a href="https://www.codecogs.com/eqnedit.php?latex=Ax=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ax=b" title="Ax=b" /></a>.  There are many other applications where the determinant is necessary, such as measuring the scale of transformation of a given matrix.  To find the determinant of **A**, the LU decompositon on the dense representation provides the necessary information.  A benficial property of diagonal matricies is that the determinant of the diagonal matrix is the product of the diagonal elements.
+
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=det(A)&space;=&space;\prod&space;diag(a)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?det(A)&space;=&space;\prod&space;diag(a)" title="det(A) = \prod diag(a)" /></a>
+</p>
+<br>
+
+With LU decomposition, finding the determinant of **A** is trivial.  The determinant of **A** is equal to the product of the determinants of **L** and **U** [2].
+<br>
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=det(A)&space;=det(L)det(U)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?det(A)&space;=det(L)det(U)" title="det(A) =det(L)det(U)" /></a>
+</p>
+
+<br>
+
+With the knowledge that **L** is a unit lower triangular matrix it is known that the diagonal elements are 1.  Therefor only the determinant of **U** is necessary to calculate the determinant of **A**.  The implemenation simply takes the product of the diagonal elements of the dense representation of **U**.
+
+<br>
+
+### Solving Linear Equations and Finding the Inverse
+A fundamental operation of matricies includes solving the equation <a href="https://www.codecogs.com/eqnedit.php?latex=Ax=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ax=b" title="Ax=b" /></a>.  Once the **LU** matricies have been generated, solving the linear systems becomes trivial.  The solving operation is broken up into two parts:
+
+<p align="center">
+  <a href="https://www.codecogs.com/eqnedit.php?latex=Ly=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ly=b" title="Ly=b" /></a><br><a href="https://www.codecogs.com/eqnedit.php?latex=Ux=y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ux=y" title="Ux=y" /></a>
+</p>
+
+
+
+  
 
 ### References
 
