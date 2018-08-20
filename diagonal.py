@@ -140,6 +140,17 @@ class Diagonal:
     def forward(self,A,b):
         return np.hstack([self._forward_solve(A,b[:,i])[...,None] for i in range(len(b))])
 
+    def to_sparse(self,mat):
+        '''
+            Returns a sparse matrix from dense when representation is column based
+        '''
+        sparse = np.zeros((self.area,self.area))
+        assert mat.shape == (self.n,self.area)
+        for i in range(sparse.shape[0]):
+            sparse[self.basis[i%self.d],i] = mat[:,i]
+        return sparse
+
+
 
     def solve(self,b):
         ''' 
@@ -167,15 +178,10 @@ class Diagonal:
         ''' 
             LU Decomposition of A with pivoting, following Doolittle Algorithm
             
-            An oversight of this implementation is that it computs L and U at the full resolution.  It then returns
-            the dense version of L and U.  It should not take too much effort to refactor the algorithm, but I am low on time
-            and the downstream applications can still operate on dense LU
+            Operates on a dense representation and outputs dense LU matricies
+
         '''
-        
-        #L = np.eye(self.area)
-        #U = np.zeros((self.area,self.area))
-        #PA = self.get_permutation_dense()
-        
+
         diags = self._create_diag()
         L = np.zeros((self.area,self.n))
         for i in range(self.area):
@@ -211,43 +217,3 @@ class Diagonal:
 
         return(PA,L,U)
     
-    def old_plu(self):
-        ''' 
-            LU Decomposition of A with pivoting, following Doolittle Algorithm
-            
-            An oversight of this implementation is that it computs L and U at the full resolution.  It then returns
-            the dense version of L and U.  It should not take too much effort to refactor the algorithm, but I am low on time
-            and the downstream applications can still operate on dense LU
-        '''
-        
-        L = np.eye(self.area)
-        U = np.zeros((self.area,self.area))
-        PA = self.get_permutation_dense()
-
-        for j in range(self.area):
-
-            basis = self.basis[j%self.d]
-            Uupdatedable = [b for b in basis if b<=j]
-            Lupdatedable = [b for b in basis if b>j]
-            
-           
-            # Iteration through only the basis vectors for the given column.  A reduction of d
-            # Utilizing the basis vectors we also can perform per column updates, rather than iterating
-            # through each value in the column, saving more computations.
-            for ii,i in enumerate(basis):
-                if i <= j:
-                    if len(Uupdatedable) == 1:
-                        value = PA[ii,j]
-                    else:
-                        value= PA[ii,j] - (U[Uupdatedable[:ii+(1-j%2)],j] *L[basis[ii],Uupdatedable[:ii+(1-j%2)]]).sum()
-                    U[i,j] = value
-                    
-                if i > j:
-                    if len(Lupdatedable)>self.d:
-                        value = PA[ii,j] / U[j,j]
-                    else:
-                        value = (PA[ii,j] -(L[basis[ii],range(j)] * U[range(j),j]).sum()) / U[j,j]
-                    L[i,j] = value
-
-
-        return(PA,self.to_dense(L),self.to_dense(U))
