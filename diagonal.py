@@ -17,6 +17,9 @@ class Diagonal:
 
 
     def _create_basis(self):
+        '''
+            Create the basis vector utilized throughout the implementation
+        '''
         return np.split(np.array(self.table[1][:self.area]),self.d)
 
     def _create_row_representation(self):
@@ -64,7 +67,7 @@ class Diagonal:
             else:
                 batched = np.vstack([y[b,:] for b in self.basis])
                 batched = np.reshape(batched,(self.d,self.n,y.shape[-1]))
-            #batched = np.vstack([batched for _ in range(self.n)])
+        # For testing purposes, we can perform the mm operation on a pre indexed matrix
         else:
             batched=y
         if left:
@@ -82,6 +85,10 @@ class Diagonal:
         return np.repeat(np.arange(0,self.n),self.d)
 
     def get_permutation_dense(self):
+        ''' 
+            To increase numerical stability and ensure that A is proper factorized during LU decomposition, we pivot and return 
+            the pivoted dense matrix
+        '''
         diags = np.repeat(np.arange(0,self.n),self.d)
         updated = self.row_based.copy()
         for c in range(updated.shape[1]):
@@ -94,16 +101,6 @@ class Diagonal:
                 basis = self.basis[c%self.d]
                 updated[:,basis] = updated[:,basis][[order],:]
         return updated
-
-    @staticmethod
-    def create_pivot(mat):
-        mat_size = mat.shape[0]
-        p_blank = np.eye(mat_size)
-        for c in range(mat_size):
-            row = max(range(c, mat_size), key=lambda i: abs(mat[i,c]))
-            if c != row:
-                p_blank[[c,row]] = p_blank[[row,c]]
-        return p_blank
 
 
     def mm(self,y,x=None,sparse=True,left=False,batch=True):
@@ -145,9 +142,17 @@ class Diagonal:
 
 
     def solve(self,b):
+        ''' 
+            Currently this solve function operates with dense L and U values, but orgingal sparsity in y and x.
+            Further memory reductions are possible if the forward solve returns a dense y and the backwards
+            solves operates on the dense y.  For the small scope of this implementation, it is probably safe to do so.
+        '''
         pa,l,u = self.plu()
-        #Ly=B
+        if self.determinant(u) ==0.:
+            raiseAssertionError("Matrix is Singular")
+        # Ly=B
         y = self.forward(l,b)
+        # Return Ux=y
         return self.backwards(u,y)
     def determinant (self,U=None):
         if U is None:
@@ -159,9 +164,16 @@ class Diagonal:
 
         return np.prod(diagonals) * self.permutation_flag
     def plu(self):
+        ''' 
+            LU Decomposition of A with pivoting, following Doolittle Algorithm
+            
+            An oversight of this implementation is that it computs L and U at the full resolution.  It then returns
+            the dense version of L and U.  It should not take too much effort to refactor the algorithm, but I am low on time
+            and the downstream applications can still operate on dense LU
+        '''
+        
         L = np.eye(self.area)
         U = np.zeros((self.area,self.area))
-        #P = self.create_pivot(self.from_dense(self.matrix))
         PA = self.get_permutation_dense()
 
         for j in range(self.area):
@@ -169,7 +181,11 @@ class Diagonal:
             basis = self.basis[j%self.d]
             Uupdatedable = [b for b in basis if b<=j]
             Lupdatedable = [b for b in basis if b>j]
-
+            
+           
+            # Iteration through only the basis vectors for the given column.  A reduction of d
+            # Utilizing the basis vectors we also can perform per column updates, rather than iterating
+            # through each value in the column, saving more computations.
             for ii,i in enumerate(basis):
                 if i <= j:
                     if len(Uupdatedable) == 1:
