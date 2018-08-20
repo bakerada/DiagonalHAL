@@ -130,6 +130,16 @@ A fundamental operation of matricies includes solving the equation <a href="http
 
 The two step procedure is especially pratical given the triangular properties of **LU**.  To solve for *y*, only a single pass through forward substitution with **L** is necessary.  While solving for the final solution *x* can be done with a single pass through backwards elimination with **U** [1].  To implement the solve for linear equations, the basis vectors index the given *b* during the forward and backwards eliminations steps.  The use of the basis vectors enables calculations of *b* with the dense representations of **LU**, saving memory and total computations.
 
+To find the inverse of **A**, all the tools and algorithms are in place with LU decomposition and the dense forward and backward elimination implementations.  The first step is to decompose the dense represenation of **A** into **LU**.  Then the determinant of **U** is found to ensure that it is non-zero.  Finally, we can solve <a href="https://www.codecogs.com/eqnedit.php?latex=Ax=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ax=b" title="Ax=b" /></a> where *b* is the identity matrix.  
+
+<br>
+
+### Conclusions
+
+The implementation provides memory and computation reducing mechanisms for several common matrix operations, including matrix multiplication, finding the determinant and inverse, LU decomposition, and solving <a href="https://www.codecogs.com/eqnedit.php?latex=Ax=b" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Ax=b" title="Ax=b" /></a>.  By decomposing **A** into a dense representation of size <a href="https://www.codecogs.com/eqnedit.php?latex=n^2xd" target="_blank"><img src="https://latex.codecogs.com/gif.latex?n^2xd" title="n^2xd" /></a>.  By performing the varies operations on the dense represenation, typical memory and computations reductions are typically on the order of *d* or greater.  The main enabler of the implemenation is the use of basis vectors, which provide the index location of the diagonal elements of the original **A** matrix.  
+
+There are several limiting factors of the current implementation.  The operations are limited by the amount of memory on the current device.  With the dense operations, large values of *n* and *d* can find into memory, but updating the implemenation to utilize disk mapping can enable even larger values.  Another limitation is speed on the LU decomposition operation.  Even with the reduction of operations, there are many iterations to solve for **LU**.  Python is not the ideal language for implementations with many iterative steps, which is why numpy often leverages other languages to perform the operations.  The same dense LU decomposition algorithm can be converted and optimized in compiled language to not only see signifcant reductions in computations and memory, but also runtime.  Finally, many of the algorithms provided in the implementation can be parallelized to see speed improvements, especially in disk mapping is utilized to operation of **A** containing millions of cells.
+
 
 
   
@@ -137,6 +147,8 @@ The two step procedure is especially pratical given the triangular properties of
 ### References
 
 [1] Press, W. H.; Flannery, B. P.; Teukolsky, S. A.; and Vetterling, W. T. "LU Decomposition and Its Applications." §2.3 in Numerical Recipes in FORTRAN: The Art of Scientific Computing, 2nd ed. Cambridge, England: Cambridge University Press, pp. 34-42, 1992.
+
+
 [2] Timothy Sauer. 2011. Numerical Analysis (2nd ed.). Addison-Wesley Publishing Company, ch 2, USA.
 
 
